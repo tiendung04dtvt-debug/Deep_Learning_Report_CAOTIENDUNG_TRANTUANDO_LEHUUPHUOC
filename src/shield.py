@@ -4,7 +4,7 @@ from threading import Lock
 from config import settings
 
 class TrafficShield:
-    """Small in-memory guard for local deployments and classroom demos."""
+
 
     def __init__(self):
         self.lock = Lock()
@@ -31,11 +31,11 @@ class TrafficShield:
         if not settings.RATE_LIMIT_ENABLED or method == "OPTIONS":
             return True, 200, "", 0
 
-        # High-frequency telemetry endpoints and static assets are exempt from rate limiting
+
         if path in ("/api/ai/status", "/api/stream", "/api/health") or path.startswith("/static/"):
             return True, 200, "", 0
 
-        # Exempt localhost from dashboard rate limiting (except brute force login attempts)
+
         if ip in ("127.0.0.1", "::1", "localhost") and path != "/api/login":
             return True, 200, "", 0
 

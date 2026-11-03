@@ -1,4 +1,4 @@
-"""TrafficAI dashboard backend."""
+
 
 import csv
 import io
@@ -225,12 +225,12 @@ async def lifespan(app: FastAPI):
     if not scheduler.running:
         scheduler.start()
 
-    # Pre-load AI models and reader in the background during server boot so start is instant!
+
     def pre_load():
         try:
             p_m, v_m, _ = get_ai_models()
             rdr = get_easyocr_reader()
-            # Perform 1-shot full neural network warmup on CPU so inference is truly instant (<500ms)
+
             import numpy as np
             import cv2
             dummy_f = np.zeros((640, 640, 3), dtype=np.uint8)
@@ -320,7 +320,7 @@ def require_role(roles: List[str]):
 
 @app.get("/api/health")
 def health_check():
-    # Return 503 until background AI model pre-loading has completed
+
     if engine_module._plate_model is None or engine_module._vehicle_model is None or engine_module._easyocr_reader is None:
         raise HTTPException(status_code=503, detail="AI models initializing...")
     return {"status": "healthy", "version": settings.VERSION, "engine": "TrafficAI", "models_ready": True}
@@ -369,8 +369,8 @@ async def login(request: Request, data: LoginRequest, db: Session = Depends(get_
 def get_stats(db: Session = Depends(get_db)):
     live = Detection.deleted_at.is_(None)
     all_rows = db.query(Detection).filter(live).order_by(desc(Detection.timestamp), desc(Detection.id)).all()
-    
-    # Deduplicate strictly across unique license plates
+
+
     unique_rows = []
     seen_plates = set()
     cars = 0
@@ -420,8 +420,8 @@ def get_vehicles(
         query = query.filter(Detection.plate_text.contains(search.strip().upper()))
 
     all_rows = query.order_by(desc(Detection.timestamp), desc(Detection.id)).all()
-    
-    # Deduplicate strictly: keep only 1 newest record per unique license plate
+
+
     unique_rows = []
     seen_plates = set()
     for row in all_rows:
@@ -429,11 +429,11 @@ def get_vehicles(
         if clean and clean not in seen_plates:
             seen_plates.add(clean)
             unique_rows.append(row)
-            
+
     total = len(unique_rows)
     start_idx = (page - 1) * limit
     page_rows = unique_rows[start_idx:start_idx + limit]
-    
+
     return {
         "data": [detection_payload(row) for row in page_rows],
         "total": total,
@@ -798,11 +798,11 @@ async def websocket_endpoint(websocket: WebSocket):
 
 @app.post("/api/internal/notify")
 async def notify_new_detection(payload: dict):
-    # 1. Save detection to Cloud Database
+
     db_sess = SessionLocal()
     try:
         plate_str = payload.get("plate")
-        # Check if plate is already logged recently (e.g. within last 5 seconds to avoid double logging)
+
         existing = (
             db_sess.query(Detection)
             .filter(Detection.plate_text == plate_str, Detection.deleted_at.is_(None))
@@ -814,7 +814,7 @@ async def notify_new_detection(payload: dict):
             time_diff = datetime.utcnow() - existing.timestamp
             if time_diff.total_seconds() < 5:
                 should_log = False
-                
+
         if should_log:
             detection = Detection(
                 plate_text=plate_str,
@@ -837,7 +837,7 @@ async def notify_new_detection(payload: dict):
     finally:
         db_sess.close()
 
-    # 2. Broadcast to all active websockets
+
     await manager.broadcast({
         "event": "new_detection",
         "data": payload
@@ -845,7 +845,7 @@ async def notify_new_detection(payload: dict):
     return {"status": "success"}
 
 
-# --- ADVANCED AI CONTROL AND STREAMING ENDPOINTS ---
+
 
 ALLOWED_MEDIA_EXTS = {
     ".mp4", ".avi", ".mov", ".mkv",
@@ -858,21 +858,21 @@ async def upload_media(file: UploadFile = File(...), current: dict = Depends(req
     ext = os.path.splitext(file.filename)[1].lower()
     if ext not in ALLOWED_MEDIA_EXTS:
         raise HTTPException(status_code=400, detail="Only video (.mp4, .avi) or image (.jpg, .jpeg, .png, .webp) formats are allowed")
-    
+
     uploads_dir = os.path.join("static", "uploads")
     os.makedirs(uploads_dir, exist_ok=True)
-    
+
     safe_name = f"{uuid.uuid4().hex}_{re.sub(r'[^a-zA-Z0-9_.-]', '_', file.filename)}"
     file_path = os.path.join(uploads_dir, safe_name)
-    
+
     with open(file_path, "wb") as buffer:
         content = await file.read()
         buffer.write(content)
-        
+
     media_type = "image" if ext in IMAGE_MEDIA_EXTS else "video"
     return {
-        "status": "success", 
-        "filename": safe_name, 
+        "status": "success",
+        "filename": safe_name,
         "media_type": media_type,
         "path": f"static/uploads/{safe_name}"
     }
@@ -883,13 +883,13 @@ def list_videos(current: dict = Depends(get_current_user)):
     uploads_dir = os.path.join("static", "uploads")
     os.makedirs(uploads_dir, exist_ok=True)
     files = []
-    
+
     all_files = sorted(
         os.listdir(uploads_dir),
         key=lambda x: os.path.getmtime(os.path.join(uploads_dir, x)) if os.path.exists(os.path.join(uploads_dir, x)) else 0,
         reverse=True
     )
-    
+
     for f in all_files:
         ext = os.path.splitext(f)[1].lower()
         if ext in ALLOWED_MEDIA_EXTS:
@@ -906,19 +906,19 @@ def list_videos(current: dict = Depends(get_current_user)):
 @app.post("/api/ai/start")
 def start_ai(source: str = Query(...), current: dict = Depends(require_role(["admin", "operator"]))):
     if engine_module.ai_engine_running:
-        # Non-blocking stop of previous instance to respond in < 1ms
+
         if engine_module.ai_engine_thread:
             engine_module.ai_engine_thread.stop_event.set()
         engine_module.ai_engine_running = False
         engine_module.ai_engine_thread = None
-        
-    # Resolve source path
+
+
     if source.isdigit():
         resolved_source = int(source)
     elif source.startswith("rtsp://") or source.startswith("http://") or source.startswith("https://"):
         resolved_source = source
     else:
-        # Check in static/uploads or main folder
+
         uploads_path = os.path.join("static", "uploads", source)
         if os.path.exists(uploads_path):
             resolved_source = uploads_path
@@ -926,8 +926,8 @@ def start_ai(source: str = Query(...), current: dict = Depends(require_role(["ad
             resolved_source = source
         else:
             raise HTTPException(status_code=404, detail=f"Source media not found: {source}")
-            
-    # --- INSTANT-START OPTIMIZATION ---
+
+
     try:
         import cv2
         import numpy as np
@@ -935,11 +935,11 @@ def start_ai(source: str = Query(...), current: dict = Depends(require_role(["ad
         loading_img[:] = (10, 7, 5)
         cv2.rectangle(loading_img, (40, 40), (1240, 680), (33, 27, 21), 2)
         cv2.putText(loading_img, "KBN TRAFFIC-AI ENGINE v6.5", (100, 240), cv2.FONT_HERSHEY_SIMPLEX, 1.3, (191, 212, 45), 3)
-        
+
         is_img = isinstance(resolved_source, str) and os.path.splitext(resolved_source)[1].lower() in IMAGE_MEDIA_EXTS
         loading_title = "ANALYZING IMAGE WITH YOLO & OCR..." if is_img else "CONNECTING TO CAMERA BOT..."
         cv2.putText(loading_img, loading_title, (100, 320), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 255), 2)
-        
+
         if isinstance(resolved_source, int):
             src_text = "Source: Local computer camera (Port 0)" if resolved_source == 0 else "Source: Mobile Camera / Auxiliary Cam (Port 1)"
         else:
@@ -947,32 +947,32 @@ def start_ai(source: str = Query(...), current: dict = Depends(require_role(["ad
             src_text = f"Source: {clean_display}"
         cv2.putText(loading_img, src_text, (100, 400), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (184, 163, 148), 2)
         cv2.putText(loading_img, "Please wait, starting YOLOv8 + OpenVINO...", (100, 480), cv2.FONT_HERSHEY_SIMPLEX, 0.65, (94, 197, 34), 2)
-        
+
         _, jpeg = cv2.imencode('.jpg', loading_img)
         with latest_frame_lock:
             engine_module.latest_processed_frame = jpeg.tobytes()
     except Exception as ex:
         print(f"Error drawing loading frame: {ex}")
-        
+
         if isinstance(resolved_source, int):
             src_text = "Source: Local computer camera (Port 0)" if resolved_source == 0 else "Source: Mobile Camera / Auxiliary Cam (Port 1)"
         else:
             src_text = f"Source: {source}"
         cv2.putText(loading_img, src_text, (100, 400), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (184, 163, 148), 2)
         cv2.putText(loading_img, "Please wait, starting YOLOv8 + OpenVINO...", (100, 480), cv2.FONT_HERSHEY_SIMPLEX, 0.65, (94, 197, 34), 2)
-        
+
         _, jpeg = cv2.imencode('.jpg', loading_img)
         with latest_frame_lock:
             engine_module.latest_processed_frame = jpeg.tobytes()
     except Exception as ex:
         print(f"Error drawing loading frame: {ex}")
-    # ----------------------------------
 
-    # Start the engine thread
+
+
     engine_module.ai_engine_thread = TrafficAIEngine(resolved_source)
     engine_module.ai_engine_running = True
     engine_module.ai_engine_thread.start()
-    
+
     return {"status": "success", "message": f"Started AI Engine on {source}"}
 
 
@@ -980,16 +980,16 @@ def start_ai(source: str = Query(...), current: dict = Depends(require_role(["ad
 def stop_ai(current: dict = Depends(require_role(["admin", "operator"]))):
     if not engine_module.ai_engine_running or engine_module.ai_engine_thread is None:
         return {"status": "success", "message": "AI engine was not running"}
-        
-    # Stop thread
+
+
     engine_module.ai_engine_thread.stop_event.set()
     engine_module.ai_engine_thread.join(timeout=2.0)
-    
+
     engine_module.ai_engine_running = False
     engine_module.ai_engine_thread = None
     with latest_frame_lock:
         engine_module.latest_processed_frame = None
-        
+
     return {"status": "success", "message": "Stopped AI Engine"}
 
 
@@ -1002,7 +1002,7 @@ def get_ai_status(current: dict = Depends(get_current_user)):
             "fps": 0,
             "processed_frames": 0
         }
-        
+
     return {
         "running": True,
         "status": engine_module.ai_engine_thread.status,
@@ -1026,7 +1026,7 @@ def video_stream():
             else:
                 time.sleep(0.03)
         yield b''
-            
+
     return StreamingResponse(
         frame_generator(),
         media_type="multipart/x-mixed-replace; boundary=frame"
@@ -1052,9 +1052,9 @@ def get_reports_charts(
         }
         for offset in range(days)
     }
-    
+
     vehicle_types = {"CAR": 0, "TRUCK": 0, "BUS": 0}
-    
+
     rows = db.query(Detection).filter(Detection.deleted_at.is_(None)).all()
     for row in rows:
         status = row.payment_status if row.payment_status in VALID_STATUSES else "UNPAID"
@@ -1063,7 +1063,7 @@ def get_reports_charts(
             vehicle_types[v_type] += 1
         else:
             vehicle_types[v_type] = vehicle_types.get(v_type, 0) + 1
-            
+
         timestamp = parse_dt(row.timestamp)
         if not timestamp:
             continue
@@ -1074,9 +1074,9 @@ def get_reports_charts(
         daily[key][status.lower()] += 1
         if status == "PAID":
             daily[key]["revenue"] += price
-            
+
     sorted_vehicle_types = dict(sorted(vehicle_types.items(), key=lambda item: item[1], reverse=True))
-    
+
     return {
         "days": days,
         "daily": list(daily.values()),

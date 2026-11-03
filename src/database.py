@@ -8,7 +8,7 @@ if settings.DATABASE_URL.startswith("sqlite"):
 
 engine = create_engine(settings.DATABASE_URL, connect_args=connect_args)
 
-# P0: SQLite WAL Mode and Performance Tuning
+
 if settings.DATABASE_URL.startswith("sqlite"):
     @event.listens_for(engine, "connect")
     def _set_sqlite_pragma(dbapi_connection, connection_record):
@@ -24,7 +24,7 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
 def get_db():
-    """Dependency injection helper to yield a database session."""
+
     db = SessionLocal()
     try:
         yield db
