@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cẩm Nang Thuyết Trình Phần 1 (Slide 1 - 16) & Hỏi Đáp Hội Đồng</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --surface: #1e293b;
+            --surface-hover: #334155;
+            --border: #334155;
+            --primary: #0ea5e9;
+            --primary-glow: rgba(14, 165, 233, 0.2);
+            --accent: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+            --teal: #0E9AA7;
+            --navy: #0B2E4F;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding-bottom: 80px;
+        }
+
+        /* Top Header */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .header-title h1 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-title h1 span.badge {
+            background: var(--primary);
+            color: #fff;
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-weight: 600;
+        }
+
+        .header-meta {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Stopwatch Timer */
+        .timer-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--surface);
+            padding: 6px 14px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .timer-display {
+            font-family: 'Fira Code', monospace;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent);
+            min-width: 65px;
+        }
+
+        .timer-btn {
+            background: var(--surface-hover);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .timer-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Layout Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px 20px;
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 12px;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            background: transparent;
+            color: var(--text-muted);
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-main);
+            background: var(--surface);
+        }
+
+        .tab-btn.active {
+            color: white;
+            background: var(--primary);
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        /* Hero Quick Overview */
+        .hero-banner {
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.1), rgba(16, 185, 129, 0.05));
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-bottom: 28px;
+        }
+
+        .hero-banner h2 {
+            font-size: 1.15rem;
+            color: var(--primary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-top: 14px;
+        }
+
+        .hero-card {
+            background: var(--surface);
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+
+        .hero-card .label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .hero-card .value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-top: 4px;
+        }
+
+        /* Slide Cards */
+        .slide-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .slide-card:hover {
+            border-color: rgba(14, 165, 233, 0.5);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .slide-header {
+            padding: 16px 20px;
+            background: rgba(30, 41, 59, 0.8);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .slide-header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .slide-pill {
+            background: var(--primary);
+            color: white;
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .slide-title-text {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .slide-time {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent);
+            background: rgba(16, 185, 129, 0.1);
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .slide-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .action-box {
+            background: rgba(245, 158, 11, 0.08);
+            border-left: 4px solid var(--warning);
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.9rem;
+            color: #fde68a;
+        }
+
+        .action-box strong {
+            color: var(--warning);
+            display: block;
+            margin-bottom: 4px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .speech-box {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            border-radius: 10px;
+            padding: 16px 18px;
+            position: relative;
+        }
+
+        .speech-box::before {
+            content: "LỜI THOẠI NÓI (WORD-FOR-WORD)";
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .speech-box p {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: #e2e8f0;
+        }
+
+        .speech-box p strong {
+            color: #38bdf8;
+        }
+
+        .key-points {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .point-tag {
+            background: var(--surface-hover);
+            color: #cbd5e1;
+            font-size: 0.8rem;
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Q&A Accordion Cards */
+        .qa-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .qa-header {
+            padding: 16px 20px;
+            background: rgba(30, 41, 59, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            border-bottom: 1px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .qa-header:hover {
+            background: rgba(30, 41, 59, 1);
+        }
+
+        .qa-card.open .qa-header {
+            border-bottom-color: var(--border);
+            background: rgba(14, 165, 233, 0.08);
+        }
+
+        .qa-question {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #f1f5f9;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .qa-badge {
+            background: #e11d48;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 6px;
+            white-space: nowrap;
+            margin-top: 2px;
+        }
+
+        .qa-badge.hot {
+            background: #f97316;
+        }
+
+        .qa-badge.tech {
+            background: #8b5cf6;
+        }
+
+        .qa-body {
+            padding: 20px;
+            display: none;
+            background: rgba(15, 23, 42, 0.4);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: #cbd5e1;
+        }
+
+        .qa-card.open .qa-body {
+            display: block;
+        }
+
+        .qa-body strong {
+            color: #38bdf8;
+        }
+
+        .qa-body ul {
+            margin-left: 20px;
+            margin-top: 8px;
+            margin-bottom: 8px;
+        }
+
+        .qa-body li {
+            margin-bottom: 6px;
+        }
+
+        .formula-box {
+            background: #090d16;
+            border: 1px solid #1e293b;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.88rem;
+            color: #38bdf8;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+
+        /* Footer */
+        .footer-note {
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        /* Print Optimization */
+        @media print {
+            header { position: static; }
+            .timer-box, .nav-tabs { display: none; }
+            .slide-body, .qa-body { display: block !important; }
+            body { background: #fff; color: #000; }
+            .slide-card, .qa-card { border: 1px solid #ccc; break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header with Live Stopwatch -->
+    <header>
+        <div class="header-title">
+            <h1>
+                🎓 Cẩm Nang Bảo Vệ Đồ Án PBL4
+                <span class="badge">NGƯỜI 1: TỔNG QUAN & YOLOV8</span>
+            </h1>
+            <div class="header-meta">
+                Đề tài: Giám sát giao thông & Nhận diện biển số Dual-AI (YOLOv8 + CNN) | GVHD: TS. Trần Thị Minh Hạnh
+            </div>
+        </div>
+
+        <div class="timer-box">
+            <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Luyện nói:</span>
+            <div class="timer-display" id="timer">00:00</div>
+            <button class="timer-btn" id="startBtn" onclick="toggleTimer()">Bắt đầu</button>
+            <button class="timer-btn" onclick="resetTimer()">Đặt lại</button>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <!-- Quick Summary Banner -->
+        <div class="hero-banner">
+            <h2>🎯 Mục tiêu & Phạm vi Người 1 (Frontman mở màn)</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                Bạn phụ trách từ <strong>Slide 1 đến Slide 16</strong>. Thời lượng chuẩn: <strong>đúng 6 phút 00 giây (360 giây)</strong>. 
+                Nhiệm vụ: Tạo ấn tượng mở màn tự tin, giải thích trọn vẹn luồng dữ liệu Dual-AI và chứng minh quá trình huấn luyện bài bản qua log nghiệm thu <code>best.pt</code>.
+            </p>
+
+            <div class="hero-grid">
+                <div class="hero-card">
+                    <div class="label">Phạm vi Slide</div>
+                    <div class="value">Slide 1 ➔ Slide 16</div>
+                </div>
+                <div class="hero-card">
+                    <div class="label">Thời lượng chuẩn</div>
+                    <div class="value" style="color: var(--accent);">Đúng 6:00 (360 giây)</div>
+                </div>
+                <div class="hero-card">
+                    <div class="label">Trọng tâm kỹ thuật</div>
+                    <div class="value">C2f · Loss CIoU/DFL · close_mosaic</div>
+                </div>
+                <div class="hero-card">
+                    <div class="label">Tối ưu OpenVINO</div>
+                    <div class="value" style="color: var(--primary);">39.4 ms (CPU Intel)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('scriptTab')">📜 Kịch Bản Chi Tiết (Slide 1 - 16)</button>
+            <button class="tab-btn" onclick="switchTab('qaTab')">🔥 15 Câu Hỏi Vấn Đáp Ngoài Lề (10/10)</button>
+            <button class="tab-btn" onclick="switchTab('tipsTab')">💡 Mẹo Phong Thái & Tâm Lý Bảo Vệ</button>
+        </div>
+
+        <!-- TAB 1: SCRIPT SLIDE 1 - 16 -->
+        <div id="scriptTab" class="tab-content">
+
+            <!-- SLIDE 1 -->
+            <div class="slide-card">
+                <div class="slide-header">
+                    <div class="slide-header-left">
+                        <span class="slide-pill">SLIDE 01</span>
+                        <span class="slide-title-text">BÁO CÁO ĐỀ TÀI (Trang bìa mở đầu)</span>
+                    </div>
+                    <span class="slide-time">0:00 - 0:20 (20s)</span>
+                </div>
+                <div class="slide-body">
+                    <div class="action-box">
+                        <strong>Thao tác & Cử chỉ:</strong>
+                        Đứng thẳng, mắt hướng về Hội đồng, mỉm cười tự tin, cúi đầu chào trang trọng.
+                    </div>
+                    <div class="speech-box">
+                        <p>
+                            "Kính thưa quý Thầy Cô trong Hội đồng đánh giá và các bạn sinh viên.<br>
+                            Em xin đại diện nhóm báo cáo đề tài: <strong>'Xây dựng & tối ưu hóa mô hình học sâu (YOLOv8 + Custom Deep CNN) trong hệ thống giám sát giao thông và nhận diện biển số xe thời gian thực'</strong>, dưới sự hướng dẫn khoa học của <strong>TS. Trần Thị Minh Hạnh</strong>.<br>
+                            Nhóm nghiên cứu gồm 3 thành viên: <strong>Cao Tiến Dũng, Trần Tuấn Đô</strong> (Lớp 22DT2) và <strong>Lê Hữu Phước</strong> (Lớp 22DT4).<br>
+                            Sau đây, em xin phép bắt đầu phần trình bày về bối cảnh, kiến trúc hệ thống và quy trình xây dựng mô hình định vị biển số."
+                        </p>
+                    </div>
+                    <div class="key-points">
+                        <span class="point-tag">Chào trang trọng</span>
+                        <span class="point-tag">Nêu đúng tên GVHD</span>
+                        <span class="point-tag">3 thành viên (Dũng, Đô, Phước)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 2 -->
+            <div class="slide-card">
+                <div class="slide-header">
+                    <div class="slide-header-left">
+                        <span class="slide-pill">SLIDE 02</span>
+                        <span class="slide-title-text">ĐẶT VẤN ĐỀ & MỤC TIÊU ĐỀ TÀI</span>
+                    </div>
+                    <span class="slide-time">0:20 - 0:45 (25s)</span>
+                </div>
+                <div class="slide-body">
+                    <div class="action-box">
+                        <strong>Thao tác & Cử chỉ:</strong>
+                        Hướng tay sang cột Thách thức ➔ Chuyển sang cột Mục tiêu đề tài bên phải.
+                    </div>
+                    <div class="speech-box">
+                        <p>
+                            "Trong bài toán giám sát phương tiện tự động tại các trạm kiểm soát, hệ thống thị giác máy tính phải giải quyết 3 thách thức thực tế:<br>
+                            • Thứ nhất, diện tích vùng biển số rất nhỏ, <strong>chiếm dưới 5% diện tích khung hình</strong>.<br>
+                            • Thứ hai, các yếu tố nhiễu môi trường như <strong>chói đèn pha ban đêm, bóng râm và bụi bẩn</strong> làm suy giảm chất lượng ảnh.<br>
+                            • Thứ ba, hệ thống đòi hỏi sự cân bằng giữa <strong>độ chính xác định vị</strong> và <strong>tốc độ xử lý khung hình</strong>.<br>
+                            Từ đó, mục tiêu của đề tài là xây dựng một chuỗi xử lý hoàn chỉnh: ứng dụng YOLOv8 phát hiện phương tiện và biển số, kết hợp mô hình nhận dạng ký tự, tinh chỉnh siêu tham số và tích hợp hệ thống dịch vụ với FastAPI, SQLite và WebSocket Dashboard."
+                        </p>
+                    </div>
+                    <div class="key-points">
+                        <span class="point-tag">Biển số &lt; 5% khung hình</span>
+                        <span class="point-tag">Nhiễu chói/bóng râm/bụi</span>
+                        <span class="point-tag">Mục tiêu: Dual-AI + Dashboard</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 3 -->
+            <div class="slide-card">
+                <div class="slide-header">
+                    <div class="slide-header-left">
+                        <span class="slide-pill">SLIDE 03</span>
+                        <span class="slide-title-text">KIẾN TRÚC HỆ THỐNG DUAL-AI (Sơ đồ khối tổng quan)</span>
+                    </div>
+                    <span class="slide-time">0:45 - 1:05 (20s)</span>
+                </div>
+                <div class="slide-body">
+                    <div class="action-box">
+                        <strong>Thao tác & Cử chỉ:</strong>
+                        Chỉ sơ đồ khối từ Camera ➔ YOLOv8 ➔ Tiền xử lý ➔ Nhận diện ký tự ➔ Dashboard.
+                    </div>
+                    <div class="speech-box">
+                        <p>
+                            "Để giải quyết bài toán trên, kiến trúc hệ thống được thiết kế phân tầng thành hai khối chính:<br>
+                            • Khối thứ nhất là <strong>Mô hình định vị YOLOv8n</strong>: Đóng vai trò chọn lọc không gian, khoanh vùng phương tiện và bóc tách khu vực biển số, loại bỏ phần lớn diện tích ngoại cảnh không cần thiết.<br>
+                            • Khối thứ hai là <strong>Cụm tiền xử lý và nhận diện ký tự</strong>: Hình ảnh biển số sau khi trích xuất được nâng cao chất lượng và đưa vào mô hình phân loại ký tự, kết hợp với các quy tắc định dạng biển số Việt Nam.<br>
+                            Sự phân tách này giúp tối ưu hóa tài nguyên tính toán cho từng công đoạn riêng biệt."
+                        </p>
+                    </div>
+                    <div class="key-points">
+                        <span class="point-tag">Phân tầng kiến trúc</span>
+                        <span class="point-tag">YOLOv8 lọc không gian</span>
+                        <span class="point-tag">Bộ giải mã ký tự</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 4 -->
+            <div class="slide-card">
+                <div class="slide-header">
+                    <div class="slide-header-left">
+                        <span class="slide-pill">SLIDE 04</span>
+                        <span class="slide-title-text">KIẾN TRÚC HỆ THỐNG DUAL-AI (Sơ đồ luồng kỹ thuật thiết kế)</span>
+                    </div>
+                    <span class="slide-time">1:05 - 1:35 (30s)</span>
+                </div>
+                <div class="slide-body">
+                    <div class="action-box">
+                        <strong>Thao tác & Cử chỉ:</strong>
+                        Lia bút chỉ theo thứ tự 4 khối màu từ trái sang phải: Khối xanh lam ➔ Khối tím ➔ Khối tím đậm ➔ Khối xanh lá ➔ Hộp kết quả đen.
+                    </div>
+                    <div class="speech-box">
+                        <p>
+                            "Thưa Thầy Cô, trên Slide 4 là sơ đồ luồng kỹ thuật tổng thể được nhóm quy hoạch qua <strong>4 giai đoạn liên hoàn</strong> từ luồng video đầu vào đến cơ sở dữ liệu đầu ra:<br>
+                            • <strong>Giai đoạn 1 (Khối xanh lam):</strong> Mô hình YOLOv8 kết hợp bộ lọc Kalman và thuật toán bám vết phương tiện, đồng thời định vị vùng biển số xe.<br>
+                            • <strong>Giai đoạn 2 (Khối tím):</strong> Cầu nối tiền xử lý ảnh sử dụng biên đệm an toàn 14 pixel, cân bằng sáng thích ứng CLAHE và nhị phân hóa Otsu để bóc tách từng ký tự 32×32.<br>
+                            • <strong>Giai đoạn 3 (Khối tím đậm):</strong> Mạng tích chập chuyên sâu PlateCharCNN với 3 khối Conv-BN-Pool để phân loại 36 lớp ký tự.<br>
+                            • <strong>Giai đoạn 4 (Khối xanh lá):</strong> Cơ chế ra quyết định kết hợp bộ đối soát định dạng biển số Việt Nam, kênh EasyOCR dự phòng và thuật toán bỏ phiếu đa khung hình để cho ra kết quả cuối cùng trong khoảng 52 ms.<br>
+                            <em>Trong phần báo cáo của em, em xin phép đi sâu vào <strong>Giai đoạn 1 và quy trình huấn luyện mô hình định vị biển số</strong>, còn <strong>Giai đoạn 2, 3 và 4</strong> sẽ được bạn [Tên Bạn 2] trình bày chi tiết ở phần tiếp theo.</em>"
+                        </p>
+                    </div>
+                    <div class="key-points">
+                        <span class="point-tag">Quy hoạch 4 giai đoạn</span>
+                        <span class="point-tag">CLAHE & Otsu 32x32</span>
+                        <span class="point-tag">PlateCharCNN & Hybrid</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 5 -->
+            <div class="slide-card">
+                <div class="slide-header">
+                    <div class="slide-header-left">
+                        <span class="slide-pill">SLIDE 05</span>
+                        <span class="slide-title-text">HÀNH TRÌNH CỦA MỘT KHUNG HÌNH (Minh họa quy trình 5 bước)</span>
+                    </div>
+                    <span class="slide-time">1:35 - 1:55 (20s)</span>
+                </div>
+                <div class="slide-body">
+                    <div class="action-box">
+                        <strong>Thao tác & Cử chỉ:</strong>
+                        Chỉ 5 bước tuần tự từ 1 đến 5, nhấn mạnh vào dòng ví dụ thực tế xe #12 ở đáy slide.
+                    </div>
+                    <div class="speech-box">
+                        <p>
+                            "Dữ liệu từ khung hình camera được xử lý qua 5 bước tuần tự, minh họa qua phương tiện mang mã theo dõi #12:<br>
+                            • <strong>Bước 1:</strong> Phát hiện thân xe và theo dõi chuyển động ➔ Thu được hộp bao và Track ID #12.<br>
+                            • <strong>Bước 2:</strong> Định vị biển số và ghép đúng vào thân xe #12 bằng thuật toán Hungarian.<br>
+                            • <strong>Bước 3:</strong> Cắt ảnh biển số và thực hiện các bước tiền xử lý nâng cao chất lượng.<br>
+                            • <strong>Bước 4:</strong> Nhận diện các ký tự trên biển số ➔ Thu được chuỗi ký tự thô.<br>
+                            • <strong>Bước 5:</strong> Áp dụng các quy tắc kiểm tra định dạng ➔ Chuẩn hóa thành biển số hoàn chỉnh: <strong>51H-049.64</strong>.<br>
+                            Sau đây, em xin trình bày chi tiết về <strong>Bước 1 và Bước 2</strong> của hệ thống."
+                        </p>
+                    </div>
+                    <div class="key-points">
+                        <span class="point-tag">5 bước tuần tự</span>
+                        <span class="point-tag">Ví dụ xe #12</span>
+                        <span class="point-tag">Chuẩn hóa 51H-049.64</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 6 -->
+            <div class="slide-card">
+                <div class="slide-header">
+                    <div class="slide-header-left">
+                        <span class="slide-pill">SLIDE 06</span>
+                        <span class="slide-title-text">YOLOV8 PHÁT HIỆN XE (Bước 1 - 3 Đặc trưng chính)</span>
+                    </div>
+                    <span class="slide-time">1:55 - 2:10 (15s)</span>
+                </div>
+                <div class="slide-body">
+                    <div class="action-box">
+                        <strong>Thao tác & Cử chỉ:</strong>
+                        Hướng tay vào 3 hình ảnh minh họa trên slide.
+                    </div>
+                    <div class="speech-box">
+                        <p>
+                            "Ở Bước 1, nhiệm vụ đầu tiên là phát hiện phương tiện lưu thông trên làn đường. Nhóm sử dụng mạng <strong>YOLOv8</strong> nhờ các ưu điểm kiến trúc:<br>
+                            1. Cơ chế <strong>Anchor-free</strong>: Dự đoán trực tiếp khoảng cách từ tâm đối tượng thay vì phụ thuộc vào tập hộp neo định sẵn.<br>
+                            2. Khối cấu trúc <strong>C2f</strong>: Tối ưu đường truyền gradient và giảm tải tính toán.<br>
+                            3. Tốc độ thực thi cao, phù hợp với yêu cầu xử lý liên tục các khung hình video."
+                        </p>
+                    </div>
+                    <div class="key-points">
+                        <span class="point-tag">Anchor-free</span>
+                        <span class="point-tag">Khối C2f</span>
+                        <span class="point-tag">Tốc độ thời gian thực</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 7 -->
+            <div class="slide-card">
+                <div class="slide-header">
+                    <div class="slide-header-left">
+                        <span class="slide-pill">SLIDE 07</span>
+                        <span class="slide-title-text">YOLOV8 PHÁT HIỆN XE (Cơ chế phát hiện 4 giai đoạn)</span>
+                    </div>
+                    <span class="slide-time">2:10 - 2:30 (20s)</span>
+                </div>
+                <div class="slide-body">
+                    <div class="action-box">
+                        <strong>Thao tác & Cử chỉ:</strong>
+                        Chỉ lần lượt 4 khối nội dung từ 1 đến 4.
+                    </div>
+                    <div class="speech-box">
+                        <p>
+                            "Quá trình phát hiện phương tiện diễn ra qua 4 giai đoạn cơ bản:<br>
+                            • Khung hình đầu vào được điều chỉnh kích thước về 640×640 và chia thành lưới các ô vuông.<br>
+                            • Mạng tích chập sâu trích xuất các đặc trưng hình học như viền thân xe, nắp ca-pô và bánh xe.<br>
+                            • Tại mỗi ô lưới, mạng dự đoán đồng thời xác suất có vật thể, tọa độ hộp bao và phân loại dòng xe (ô tô, xe tải, xe buýt, xe máy).<br>
+                            • Về mô hình, nhóm sử dụng trọng số nền tảng <strong>yolov8n.pt</strong> đã được huấn luyện sẵn trên tập dữ liệu COCO, đáp ứng tốt việc nhận dạng các phương tiện phổ biến."
+                        </p>
+                    </div>
+                    <div class="key-points">
+                        <span class="point-tag">Ảnh 640x640</span>
+                        <span class="point-tag">Trích xuất viền hình học</span>
+                        <span class="point-tag">Pretrained yolov8n.pt</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 8 -->
+            <div class="slide-card">
+                <div class="slide-header">
+                    <div class="slide-header-left">
+                        <span class="slide-pill">SLIDE 08</span>
+                        <span class="slide-title-text">YOLOV8 PHÁT HIỆN XE (Minh họa nhận diện thực tế)</span>
+                    </div>
+                    <span class="slide-time">2:30 - 2:45 (15s)</span>
+                </div>
+                <div class="slide-body">
+                    <div class="action-box">
+                        <strong>Thao tác & Cử chỉ:</strong>
+                        Chỉ vào hình ảnh kết quả phát hiện xe trên mặt đường.
+                    </div>
+                    <div class="speech-box">
+                        <p>
+                            "Hình ảnh trên slide minh họa kết quả phát hiện xe thực tế. Mô hình nhận diện đồng thời các phương tiện trên làn đường với độ tin cậy ổn định, cung cấp tọa độ không gian chính xác cho thuật toán theo dõi kế tiếp."
+                        </p>
+                    </div>
+                    <div class="key-points">
+                        <span class="point-tag">Đa phương tiện đồng thời</span>
+                        <span class="point-tag">Độ tin cậy ổn định</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 9 -->
+            <div class="slide-card">
+                <div class="slide-header">
+                    <div class="slide-header-left">
+                        <span class="slide-pill">SLIDE 09</span>
+                        <span class="slide-title-text">BÁM ĐUÔI XE: KALMAN FILTER & IOU (Nguyên lý BoT-SORT)</span>
+                    </div>
+                    <span class="slide-time">2:45 - 3:10 (25s)</span>
+                </div>
+                <div class="slide-body">
+                    <div class="action-box">
+                        <strong>Thao tác & Cử chỉ:</strong>
+                        Chỉ 4 khối nội dung theo dõi trên màn hình.
+                    </div>
+                    <div class="speech-box">
+                        <p>
+                            "Để theo dõi liên tục phương tiện qua nhiều khung hình liên tiếp, hệ thống ứng dụng thuật toán <strong>BoT-SORT</strong> kết hợp bộ lọc Kalman Filter:<br>
+                            • <strong>Bộ lọc Kalman</strong> ước lượng trạng thái chuyển động từ vị trí và vận tốc ở khung trước để dự đoán tọa độ của xe ở khung hiện tại.<br>
+                            • Thuật toán tính toán ma trận tương quan không gian dựa trên chỉ số diện tích giao nhau <strong>IoU</strong>, kết hợp với điểm số tin cậy phát hiện (<code>fuse_score</code>).<br>
+                            • Dựa trên ngưỡng liên kết <code>match_thresh: 0.8</code>, hệ thống so khớp hộp bao dự đoán với hộp bao phát hiện thực tế để duy trì Track ID ổn định cho từng phương tiện.<br>
+                            Nhờ đó, hệ thống hạn chế được tình trạng đổi ID khi xe di chuyển qua góc quay camera."
+                        </p>
+                    </div>
+                    <div class="key-points">
+                        <span class="point-tag">BoT-SORT + Kalman Filter</span>
+                        <span class="point-tag">fuse_score: True</span>
+                        <span class="point-tag">match_thresh: 0.8</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 10 -->
+            <div class="slide-card">
+                <div class="slide-header">
+                    <div class="slide-header-left">
+                        <span class="slide-pill">SLIDE 10</span>
+                        <span class="slide-title-text">BÁM ĐUÔI XE: KALMAN FILTER & IOU (Minh họa quỹ đạo bám đuôi)</span>
+                    </div>
+                    <span class="slide-time">3:10 - 3:25 (15s)</span>
+                </div>
+                <div class="slide-body">
+                    <div class="action-box">
+                        <strong>Thao tác & Cử chỉ:</strong>
+                        Chỉ vào hình ảnh quỹ đạo xe và hộp theo dõi trên slide.
+                    </div>
+                    <div class="speech-box">
+                        <p>
+                            "Hình ảnh trên slide minh họa vệt di chuyển của phương tiện qua thời gian. Nhờ cơ chế dự đoán chuyển động của Kalman Filter, hệ thống duy trì được quỹ đạo bám đuôi ổn định ngay cả trong các tình huống xe tạm thời bị che khuất một phần hoặc thay đổi vận tốc."
+                        </p>
+                    </div>
+                    <div class="key-points">
+                        <span class="point-tag">Quỹ đạo mượt mà</span>
+                        <span class="point-tag">Khắc phục che khuất tạm thời</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 11 -->
+            <div class="slide-card">
+                <div class="slide-header">
+                    <div class="slide-header-left">
+                        <span class="slide-pill">SLIDE 11</span>
+                        <span class="slide-title-text">CẮT BIỂN SỐ & GHÉP VÀO ĐÚNG XE (Bước 2 - Hungarian Matching)</span>
+                    </div>
+                    <span class="slide-time">3:25 - 3:50 (25s)</span>
+                </div>
+                <div class="slide-body">
+                    <div class="action-box">
+                        <strong>Thao tác & Cử chỉ:</strong>
+                        Chỉ sang cột Định vị biển số ➔ Chỉ sang cột Ghép biển số bằng Hungarian.
+                    </div>
+                    <div class="speech-box">
+                        <p>
+                            "Sau khi theo dõi thân xe, chúng ta bước sang <strong>Bước 2: Định vị biển số và ghép vào đúng xe</strong>:<br>
+                            • Mô hình YOLOv8 thứ hai được huấn luyện chuyên biệt để định vị vùng biển số xe.<br>
+                            • Để giải quyết bài toán ghép đúng biển số vào từng phương tiện tương ứng, trong mã nguồn <code>src/engine.py</code>, nhóm triển khai giải thuật <strong>Hungarian Matching</strong> (<code>linear_sum_assignment</code>):<br>
+                            Hệ thống xây dựng ma trận chi phí dựa trên điểm số kết hợp giữa mức độ bao phủ diện tích biển số (IoPA) và khoảng cách tâm tương đối, có điều kiện nới biên an toàn quanh hộp xe. Giải thuật này <strong>giúp tối ưu hóa việc ghép cặp 1-1 và giảm thiểu đáng kể khả năng gán nhầm biển số giữa các xe di chuyển gần nhau</strong>."
+                        </p>
+                    </div>
+                    <div class="key-points">
+                        <span class="point-tag">YOLOv8 biển số</span>
+                        <span class="point-tag">Hungarian Matching (scipy)</span>
+                        <span class="point-tag">IoPA + Khoảng cách tâm</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 12 -->
+            <div class="slide-card">
+                <div class="slide-header">
+                    <div class="slide-header-left">
+                        <span class="slide-pill">SLIDE 12</span>
+                        <span class="slide-title-text">QUY TRÌNH XÂY DỰNG MÔ HÌNH YOLOV8</span>
+                    </div>
+                    <span class="slide-time">3:50 - 4:05 (15s)</span>
+                </div>
+                <div class="slide-body">
+                    <div class="action-box">
+                        <strong>Thao tác & Cử chỉ:</strong>
+                        Chỉ sơ đồ 4 giai đoạn trên slide.
+                    </div>
+                    <div class="speech-box">
+                        <p>
+                            "Để xây dựng mô hình định vị biển số đạt hiệu năng cao, nhóm tiến hành quy trình thực nghiệm qua 4 giai đoạn: Thu thập và chuẩn bị dữ liệu ➔ Thiết kế kiến trúc mạng ➔ Lựa chọn các hàm mất mát ➔ và Cấu hình lịch trình huấn luyện."
+                        </p>
+                    </div>
+                    <div class="key-points">
+                        <span class="point-tag">Quy trình 4 giai đoạn</span>
+                        <span class="point-tag">Phương pháp luận chặt chẽ</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 13 -->
+            <div class="slide-card">
+                <div class="slide-header">
+                    <div class="slide-header-left">
+                        <span class="slide-pill">SLIDE 13</span>
+                        <span class="slide-title-text">THU THẬP & GÁN NHÃN DỮ LIỆU</span>
+                    </div>
+                    <span class="slide-time">4:05 - 4:30 (25s)</span>
+                </div>
+                <div class="slide-body">
+                    <div class="action-box">
+                        <strong>Thao tác & Cử chỉ:</strong>
+                        Chỉ các con số chính: 8,000 ảnh ➔ 2,500 ảnh VN ➔ Tỷ lệ 80% Train / 20% Val.
+                    </div>
+                    <div class="speech-box">
+                        <p>
+                            "Về cơ cấu dữ liệu huấn luyện:<br>
+                            • Nhóm áp dụng phương pháp Transfer Learning: Bắt đầu từ mô hình pre-train trên <strong>8,000 ảnh phương tiện giao thông</strong> để học các đặc trưng cạnh và hình học cơ bản.<br>
+                            • Sau đó, nhóm tiến hành Fine-tune chuyên sâu trên tập dữ liệu hơn <strong>2,500 ảnh biển số thực tế tại Việt Nam</strong>, bao gồm cả biển vuông và biển dài dưới nhiều điều kiện ánh sáng và góc chụp khác nhau.<br>
+                            • Toàn bộ tập dữ liệu được <strong>phân chia theo tỷ lệ 80% Train và 20% Validation để đánh giá trên tập validation</strong>.<br>
+                            • Đồng thời, nhóm cũng chuẩn bị tập dữ liệu 15,120 mẫu ký tự cho 36 nhãn (0–9 và A–Z) với 350 ảnh train và 70 ảnh val cho mỗi lớp nhằm phục vụ nghiên cứu mô hình nhận diện ký tự."
+                        </p>
+                    </div>
+                    <div class="key-points">
+                        <span class="point-tag">8,000 phương tiện + 2,500 VN</span>
+                        <span class="point-tag">Tỷ lệ 80% Train / 20% Val</span>
+                        <span class="point-tag">15,120 mẫu ký tự CNN</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 14 -->
+            <div class="slide-card">
+                <div class="slide-header">
+                    <div class="slide-header-left">
+                        <span class="slide-pill">SLIDE 14</span>
+                        <span class="slide-title-text">KIẾN TRÚC MẠNG YOLOV8 (Backbone, Neck, Decoupled Head)</span>
+                    </div>
+                    <span class="slide-time">4:30 - 5:00 (30s)</span>
+                </div>
+                <div class="slide-body">
+                    <div class="action-box">
+                        <strong>Thao tác & Cử chỉ:</strong>
+                        Lia bút chỉ qua 3 khối: Backbone ➔ Neck (PAN-FPN) ➔ Decoupled Head.
+                    </div>
+                    <div class="speech-box">
+                        <p>
+                            "Về kiến trúc mạng YOLOv8 phát hiện biển số gồm 3 thành phần chính:<br>
+                            • <strong>Backbone:</strong> Tận dụng khối <strong>C2f</strong> với cơ chế tách đôi nhánh gradient để trích xuất đặc trưng sâu hiệu quả, kết hợp tầng gom tụ không gian <strong>SPPF</strong> giúp giảm thiểu khối lượng tính toán.<br>
+                            • <strong>Neck (PAN-FPN):</strong> Kết hợp mạng FPN truyền đặc trưng ngữ nghĩa từ trên xuống và mạng PAN truyền đặc trưng vị trí không gian từ dưới lên. Kiến trúc cung cấp 3 tầng phát hiện, trong đó tầng <strong>P3 (kích thước 80×80)</strong> đóng vai trò chủ đạo để phát hiện các biển số có kích thước nhỏ ở cự ly xa.<br>
+                            • <strong>Decoupled Head:</strong> Tách riêng độc lập nhánh phân loại nhãn và nhánh hồi quy tọa độ, giúp quá trình lan truyền ngược gradient không bị xung đột giữa hai nhiệm vụ."
+                        </p>
+                    </div>
+                    <div class="key-points">
+                        <span class="point-tag">C2f + SPPF</span>
+                        <span class="point-tag">PAN-FPN P3 (80x80)</span>
+                        <span class="point-tag">Decoupled Head độc lập</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 15 -->
+            <div class="slide-card">
+                <div class="slide-header">
+                    <div class="slide-header-left">
+                        <span class="slide-pill">SLIDE 15</span>
+                        <span class="slide-title-text">CÁC HÀM MẤT MÁT CỦA YOLOV8 (CIoU + DFL + BCE)</span>
+                    </div>
+                    <span class="slide-time">5:00 - 5:30 (30s)</span>
+                </div>
+                <div class="slide-body">
+                    <div class="action-box">
+                        <strong>Thao tác & Cử chỉ:</strong>
+                        Chỉ 3 thành phần công thức toán trên slide: L_CIoU, L_DFL, L_BCE.
+                    </div>
+                    <div class="speech-box">
+                        <p>
+                            "Để tối ưu hóa độ chính xác tọa độ hộp bao và hạn chế mờ nhòe cạnh viền, cấu hình huấn luyện thiết lập tổng hàm mất mát kết hợp 3 thành phần:<br>
+                            • <strong>Complete IoU Loss (L_CIoU với trọng số 7.5):</strong> Tối ưu đồng thời độ trùng lặp diện tích, khoảng cách giữa hai tâm và tỷ lệ kích thước hộp bao.<br>
+                            • <strong>Distribution Focal Loss (L_DFL với trọng số 1.5):</strong> Hồi quy tọa độ biên dưới dạng phân phối xác suất liên tục quanh giá trị thực, hỗ trợ định vị chính xác cạnh viền khi biển số bị bóng râm hoặc chói sáng.<br>
+                            • <strong>Binary Cross-Entropy Loss (L_BCE với trọng số 0.5):</strong> BCE là thành phần loss dùng để tối ưu nhánh phân loại nhãn đối tượng.<br>
+                            Việc đặt trọng số 7.5 cho Box Loss và 1.5 cho DFL thể hiện rõ mục tiêu ưu tiên độ chính xác vị trí hộp bao để chuẩn bị vùng ảnh cắt tốt nhất cho công đoạn nhận diện ký tự."
+                        </p>
+                    </div>
+                    <div class="key-points">
+                        <span class="point-tag">CIoU (trọng số 7.5)</span>
+                        <span class="point-tag">DFL viền mịn (1.5)</span>
+                        <span class="point-tag">BCE phân loại (0.5)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 16 -->
+            <div class="slide-card">
+                <div class="slide-header">
+                    <div class="slide-header-left">
+                        <span class="slide-pill">SLIDE 16</span>
+                        <span class="slide-title-text">LỊCH TRÌNH HUẤN LUYỆN & LEARNING RATE (Slide Chốt Hạ)</span>
+                    </div>
+                    <span class="slide-time">5:30 - 6:00 (30s)</span>
+                </div>
+                <div class="slide-body">
+                    <div class="action-box">
+                        <strong>Thao tác & Cử chỉ:</strong>
+                        Chỉ vào khung Diễn tiến log thực tế qua 30 Epochs ở giữa slide ➔ Chỉ các mốc Warmup và close_mosaic.
+                    </div>
+                    <div class="speech-box">
+                        <p>
+                            "Trên Slide 16 là diễn tiến huấn luyện thực tế qua <strong>30 Epochs</strong> được trích xuất từ tệp log <code>results.csv</code> của lần huấn luyện tạo ra checkpoint <code>best.pt</code>:<br>
+                            • <strong>Về Learning Rate:</strong> Theo nhật ký thực nghiệm trong <code>results.csv</code>, dù cấu hình <code>args.yaml</code> đặt <code>warmup_epochs: 3.0</code>, giá trị learning rate ghi nhận ở cuối mỗi epoch tiếp tục tăng từ 0.000200 lên mức đỉnh 0.001443 tại Epoch 9, sau đó bước vào chu trình suy giảm tuyến tính (<code>cos_lr: false</code>) đều đặn về 8.6e-5 ở Epoch 30. Tại <strong>Epoch 15</strong>, mAP@50 đạt mức sớm 98.17% và Recall đạt 97.72%.<br>
+                            • <strong>Giai đoạn tắt Mosaic (Epoch 21 đến 30):</strong> Cấu hình <code>close_mosaic: 10</code> tắt hoàn toàn kỹ thuật ghép ảnh nhân tạo trong 10 epoch cuối để mô hình tinh chỉnh trên phân phối ảnh thực tế.<br>
+                            Đến giai đoạn cuối:<br>
+                            • Chỉ số <strong>mAP@50-95 đạt đỉnh toàn cục 75.15% ở Epoch 26 và 28</strong>, sau đó duy trì ở mức 74.84% tại Epoch 30.<br>
+                            • Tại <strong>Epoch 30 nghiệm thu</strong>, <strong>Precision đạt 99.05% (xấp xỉ 99%)</strong>, <strong>mAP@50 đạt 98.17%</strong>, và độ phủ <strong>Recall đạt 87.50%</strong> trên tập dữ liệu validation.<br><br>
+                            <strong>[CÂU CHUYỂN GIAO SANG BẠN 2]:</strong><br>
+                            Dựa trên lịch trình huấn luyện này, mô hình đã hội tụ với bộ trọng số nghiệm thu <code>best.pt</code>. Tiếp theo đây, em xin kính mời <strong>bạn [Tên Bạn 2]</strong> trình bày chi tiết bảng chỉ số nghiệm thu ở Slide 17, các biểu đồ đánh giá thực nghiệm ở Slide 18, 19 và các bước xử lý tiếp theo của đề tài.<br>
+                            <strong>Em xin chân thành cảm ơn Quý Thầy Cô đã lắng nghe phần trình bày của em ạ!"</strong>
+                        </p>
+                    </div>
+                    <div class="key-points">
+                        <span class="point-tag">LR tăng đến Ep 9 rồi giảm dần</span>
+                        <span class="point-tag">close_mosaic: 10</span>
+                        <span class="point-tag">Peak mAP50-95: 75.15% (Ep 26, 28)</span>
+                        <span class="point-tag">Final Precision ~99%, Recall 87.5%</span>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <!-- TAB 2: 15 CÂU HỎI VẤN ĐÁP NGOÀI LỀ -->
+        <div id="qaTab" class="tab-content" style="display: none;">
+
+            <!-- Q1: Vai trò của Camera ANPR -->
+            <div class="qa-card open">
+                <div class="qa-header" onclick="toggleQA(this)">
+                    <div class="qa-question">
+                        <span class="qa-badge hot">CỰC NÓNG</span>
+                        <span>1. Trong các hệ thống giám sát phương tiện tự động, tại sao Camera ANPR đóng vai trò quan trọng bên cạnh các cảm biến hoặc thẻ định danh?</span>
+                    </div>
+                    <span>▼</span>
+                </div>
+                <div class="qa-body">
+                    <p><strong>Trả lời:</strong></p>
+                    <p>Dạ thưa Thầy Cô, trong các bài toán kiểm soát phương tiện tự động (như bãi đỗ xe thông minh, cổng kiểm soát ra vào, trạm giám sát giao thông), hệ thống thị giác máy tính (Camera ANPR) giữ vai trò then chốt vì các lý do kỹ thuật:</p>
+                    <ul>
+                        <li><strong>1. Cung cấp dữ liệu thị giác trực quan:</strong> Cảm biến hoặc thẻ điện tử chỉ truyền mã số định danh; hình ảnh từ camera cung cấp bằng chứng trực quan về loại phương tiện, màu sơn và biển số thực tế để đối chiếu khi có nghi vấn.</li>
+                        <li><strong>2. Giám sát tự nhiên không tiếp xúc:</strong> Hệ thống camera ghi nhận phương tiện dựa trên luồng video thực tế mà không đòi hỏi phương tiện phải lắp đặt sẵn thiết bị phần hardware chuyên biệt.</li>
+                        <li><strong>3. Lưu vết dữ liệu đa thông tin phục vụ tra cứu:</strong> Ảnh chụp phương tiện kèm tọa độ bounding box, chuỗi ký tự nhận dạng và mốc thời gian (timestamp) được lưu vào cơ sở dữ liệu SQLite, hỗ trợ tra cứu lịch sử lưu thông minh bạch khi cần thiết.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Q2: Luồng phối hợp thực tế giữa mô hình xe và biển số -->
+            <div class="qa-card">
+                <div class="qa-header" onclick="toggleQA(this)">
+                    <div class="qa-question">
+                        <span class="qa-badge hot">LUỒNG CODE THỰC TẾ</span>
+                        <span>2. Luồng thực thi thực tế giữa mô hình bám vết xe, mô hình biển số và bước OCR diễn ra như thế nào trong mã nguồn?</span>
+                    </div>
+                    <span>▼</span>
+                </div>
+                <div class="qa-body">
+                    <p><strong>Trả lời:</strong></p>
+                    <p>Trong mã nguồn thực thi (<code>src/engine.py</code>), luồng phối hợp giữa các mô hình được triển khai cụ thể như sau:</p>
+                    <ul>
+                        <li><strong>1. Xử lý trên cùng khung hình:</strong> Hai mô hình cùng nhận đầu vào là toàn bộ khung hình gốc (không cắt ROI xe trước); mã gọi lần lượt <code>vehicle_model.track(frame, ...)</code> để cập nhật Track ID cho phương tiện, rồi gọi <code>plate_model.predict(frame, ...)</code> để phát hiện các hộp bao biển số.</li>
+                        <li><strong>2. Ghép cặp theo điểm số không gian bằng Hungarian Matching:</strong> Dựa trên danh sách hộp bao của xe và biển số, thuật toán Hungarian (<code>linear_sum_assignment</code>) tính toán ma trận chi phí không gian (kết hợp mức độ bao phủ diện tích IoPA và khoảng cách tâm) để ghép cặp hộp biển số với Track ID phương tiện phù hợp nhất.</li>
+                        <li><strong>3. Trì hoãn OCR theo ngưỡng kích thước (Operating Envelope):</strong> Sau khi ghép cặp, hệ thống chưa gửi ảnh sang OCR ngay mà kiểm tra chiều cao biển số (<code>plate_h = py2 - py1</code>). Nếu xe còn ở xa (<code>plate_h &lt; 38</code> pixel), hệ thống trì hoãn để tránh nhận dạng ảnh mờ nhòe. Chỉ khi xe tiến lại gần và đạt ngưỡng (<code>plate_h &ge; 38</code> pixel), vùng ảnh biển số mới được cắt để đưa vào hàng đợi OCR.</li>
+                        <li><strong>4. Khóa kết quả theo Track ID có điều kiện:</strong> Chuỗi ký tự sau khi nhận dạng được chuẩn hóa qua hàm <code>format_plate_vietnam</code>. Kết quả được khóa (<code>locked = True</code>) ngay ở lần đọc đầu tiên nếu thỏa mãn định dạng quy chuẩn tin cậy (<code>is_trusted</code>); nếu chưa đạt chuẩn tin cậy, hệ thống yêu cầu cùng một kết quả xuất hiện ít nhất 2 lần (<code>candidates[best] &ge; 2</code>) mới tiến hành khóa, nhằm tránh chạy lại OCR cho Track ID đã khóa ở các khung hình tiếp theo.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Q3: Tại sao chọn YOLOv8 -->
+            <div class="qa-card">
+                <div class="qa-header" onclick="toggleQA(this)">
+                    <div class="qa-question">
+                        <span class="qa-badge tech">KIẾN TRÚC</span>
+                        <span>3. Tại sao nhóm chọn kiến trúc YOLOv8n (Nano) mà không dùng các phiên bản lớn hơn như YOLOv8s hay YOLOv8m?</span>
+                    </div>
+                    <span>▼</span>
+                </div>
+                <div class="qa-body">
+                    <p><strong>Trả lời:</strong></p>
+                    <p>Nhóm lựa chọn <strong>YOLOv8 Nano (yolov8n)</strong> dựa trên yêu cầu tối ưu hóa tốc độ và tài nguyên triển khai:</p>
+                    <ul>
+                        <li><strong>Kích thước mô hình nhỏ gọn:</strong> Bản Nano chỉ có khoảng 3.2 triệu tham số và dung lượng tệp trọng số chỉ <strong>6.25 MB</strong>, rất thuận tiện triển khai trên vi xử lý CPU thông thường hoặc các thiết bị tính toán biên.</li>
+                        <li><strong>Hiệu năng trên tập dữ liệu đề tài:</strong> Đối với bài toán định vị vùng biển số (1 lớp đối tượng), mạng Nano sau khi fine-tune trên dữ liệu đề tài đã đạt <strong>mAP@50 98.17%</strong> trên tập validation, đáp ứng tốt yêu cầu bóc tách vị trí. Việc huấn luyện đối chiếu thêm với các biến thể lớn hơn (YOLOv8s/m) là hướng nghiên cứu mở rộng có thể thực hiện để đánh giá toàn diện sự đánh đổi giữa độ chính xác và độ trễ.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Q4: close_mosaic = 10 -->
+            <div class="qa-card">
+                <div class="qa-header" onclick="toggleQA(this)">
+                    <div class="qa-question">
+                        <span class="qa-badge tech">HUẤN LUYỆN</span>
+                        <span>4. Ý nghĩa của việc tắt Mosaic ở 10 Epoch cuối (tham số close_mosaic: 10) là gì?</span>
+                    </div>
+                    <span>▼</span>
+                </div>
+                <div class="qa-body">
+                    <p><strong>Trả lời:</strong></p>
+                    <p>Mosaic là kỹ thuật ghép 4 mảnh ảnh ngẫu nhiên giúp mạng học đa dạng tỷ lệ và bối cảnh trong giai đoạn đầu. Tuy nhiên, Mosaic cũng tạo ra các đường phân chia nhân tạo làm thay đổi hình dạng viền vật thể thực tế.</p>
+                    <p>Bằng cách cấu hình <code>close_mosaic: 10</code> (tắt ở 10 epoch cuối từ 21 đến 30), mô hình chuyển từ việc học trên các mảnh ảnh ghép sang tinh chỉnh trên phân phối hình ảnh thực tế nguyên bản, hỗ trợ các hàm mất mát CIoU và DFL hội tụ ổn định hơn trước khi kết thúc quá trình huấn luyện.</p>
+                </div>
+            </div>
+
+            <!-- Q5: Box loss 7.5 vs Cls 0.5 -->
+            <div class="qa-card">
+                <div class="qa-header" onclick="toggleQA(this)">
+                    <div class="qa-question">
+                        <span class="qa-badge tech">HÀM MẤT MÁT</span>
+                        <span>5. Tại sao trong cấu hình hàm mất mát, trọng số Box Loss (CIoU) lại đặt cao tới 7.5 và DFL là 1.5, trong khi Class Loss (BCE) chỉ là 0.5?</span>
+                    </div>
+                    <span>▼</span>
+                </div>
+                <div class="qa-body">
+                    <p><strong>Trả lời:</strong></p>
+                    <p>Trong bài toán định vị biển số của nhóm, tập dữ liệu chỉ có **duy nhất 1 lớp đối tượng (license plate)**, nên bài toán phân loại nhãn nhị phân tương đối đơn giản và hội tụ rất nhanh. Đặt trọng số $L_{BCE} = 0.5$ là vừa đủ.</p>
+                    <p>Ngược lại, chất lượng vùng ảnh cắt đưa sang công đoạn nhận diện ký tự phụ thuộc nhiều vào việc hộp bounding box có ôm khít mép biển số hay không. Do đó, nhóm ưu tiên trọng số cao cho <strong>Box Loss ($7.5$) và DFL ($1.5$)</strong> để tập trung tối ưu hóa hình học tọa độ.</p>
+                </div>
+            </div>
+
+            <!-- Q6: Deferral h < 38px -->
+            <div class="qa-card">
+                <div class="qa-header" onclick="toggleQA(this)">
+                    <div class="qa-question">
+                        <span class="qa-badge">THUẬT TOÁN</span>
+                        <span>6. Khi xe ở xa biển số có kích thước nhỏ (h &lt; 38px), hệ thống xử lý thế nào để tránh nhận diện sai?</span>
+                    </div>
+                    <span>▼</span>
+                </div>
+                <div class="qa-body">
+                    <p><strong>Trả lời:</strong></p>
+                    <p>Nhóm thiết kế <strong>Cơ chế trì hoãn (Deferral Threshold)</strong>: Dựa trên kích thước vùng ảnh biển số, nhóm đặt ngưỡng chiều cao tối thiểu $h \ge 38$ pixel để gửi sang mô hình OCR.</p>
+                    <p>Khi xe còn ở xa ($h < 38$px), thuật toán theo dõi BoT-SORT vẫn duy trì Track ID nhưng tạm thời chưa kích hoạt OCR nhằm tránh trích xuất ký tự khi ảnh quá nhỏ và giảm tải tính toán không cần thiết. Khi xe tiến lại gần hơn ($h \ge 38$px), OCR mới được kích hoạt để đọc biển số với chất lượng điểm ảnh tốt hơn.</p>
+                </div>
+            </div>
+
+            <!-- Q7: PAN-FPN bản chất -->
+            <div class="qa-card">
+                <div class="qa-header" onclick="toggleQA(this)">
+                    <div class="qa-question">
+                        <span class="qa-badge tech">KIẾN TRÚC</span>
+                        <span>7. Khối Neck thực chất là gì? Tại sao cần kết hợp cả FPN (Top-down) và PANet (Bottom-up)?</span>
+                    </div>
+                    <span>▼</span>
+                </div>
+                <div class="qa-body">
+                    <p><strong>Trả lời:</strong></p>
+                    <ul>
+                        <li><strong>FPN (Top-down):</strong> Truyền đặc trưng ngữ nghĩa mức cao (biết vật thể đó là biển số) từ các tầng sâu xuống các tầng nông có độ phân giải lớn hơn.</li>
+                        <li><strong>PANet (Bottom-up):</strong> Tạo thêm đường tắt truyền thông tin vị trí không gian chính xác (pixel tọa độ) từ tầng nông ngược lên tầng sâu.</li>
+                    </ul>
+                    <p>Sự kết hợp này giúp các đầu phát hiện (P3, P4, P5) vừa nắm được ngữ nghĩa nhận dạng vừa định vị được tọa độ chính xác của biển số ở các cự ly khác nhau.</p>
+                </div>
+            </div>
+
+            <!-- Q8: Ý nghĩa d và c trong CIoU -->
+            <div class="qa-card">
+                <div class="qa-header" onclick="toggleQA(this)">
+                    <div class="qa-question">
+                        <span class="qa-badge math">TOÁN HỌC</span>
+                        <span>8. Ý nghĩa hình học của khoảng cách tâm $d$ và đường chéo hộp bao nhỏ nhất $c$ trong công thức CIoU Loss?</span>
+                    </div>
+                    <span>▼</span>
+                </div>
+                <div class="qa-body">
+                    <p><strong>Trả lời:</strong></p>
+                    <p>Trong công thức Complete IoU: $L_{CIoU} = 1 - IoU + rac{ho^2(b, b^{gt})}{c^2} + lpha v$</p>
+                    <ul>
+                        <li>$d = ho(b, b^{gt})$ là khoảng cách Euclid giữa tâm hộp dự đoán và tâm hộp nhãn thực tế.</li>
+                        <li>$c$ là độ dài đường chéo của hình chữ nhật nhỏ nhất bao quanh đồng thời cả 2 hộp.</li>
+                    </ul>
+                    <p>Tỷ số $rac{d^2}{c^2}$ chuẩn hóa khoảng cách về khoảng $[0, 1)$. Khi hai hộp không giao nhau ($IoU = 0$), thành phần này vẫn sinh ra gradient để kéo hai tâm hộp về phía nhau, giúp hàm mất mát không bị triệt tiêu đạo hàm.</p>
+                </div>
+            </div>
+
+            <!-- Q9: Sigmoid vs Softmax ở Head CLS -->
+            <div class="qa-card">
+                <div class="qa-header" onclick="toggleQA(this)">
+                    <div class="qa-question">
+                        <span class="qa-badge tech">KIẾN TRÚC</span>
+                        <span>9. Tại sao ở đầu ra phân loại (Decoupled Head CLS), YOLOv8 lại dùng hàm kích hoạt Sigmoid độc lập thay vì Softmax?</span>
+                    </div>
+                    <span>▼</span>
+                </div>
+                <div class="qa-body">
+                    <p><strong>Trả lời:</strong></p>
+                    <p>Softmax giả định các lớp đối tượng loại trừ lẫn nhau (tổng xác suất bằng 1). Khi áp dụng cho bài toán phát hiện đồng thời nhiều vật thể lồng nhau (ví dụ: trong vùng xe ô tô có chứa biển số), Softmax có thể gây cạnh tranh xác suất.</p>
+                    <p>YOLOv8 dùng <strong>Sigmoid độc lập kết hợp Binary Cross-Entropy</strong> cho từng lớp, cho phép mô hình dự đoán xác suất độc lập, ổn định hơn khi xử lý các đối tượng đa nhãn trong cùng một khu vực không gian.</p>
+                </div>
+            </div>
+
+            <!-- Q10: OpenVINO tăng tốc -->
+            <div class="qa-card">
+                <div class="qa-header" onclick="toggleQA(this)">
+                    <div class="qa-question">
+                        <span class="qa-badge tech">PHẦN CỨNG</span>
+                        <span>10. Mô hình khi tối ưu hóa qua OpenVINO FP16 đạt hiệu năng như thế nào so với chạy PyTorch thông thường trên CPU?</span>
+                    </div>
+                    <span>▼</span>
+                </div>
+                <div class="qa-body">
+                    <p><strong>Trả lời:</strong></p>
+                    <p>Bộ công cụ <strong>Intel OpenVINO</strong> chuyển đổi mô hình sang đồ thị tính toán trung gian (IR format: <code>.xml</code> và <code>.bin</code>), thực hiện hợp nhất các tầng tích chập với BatchNorm (layer fusion) và lượng tử hóa số thực dấu phẩy động 16-bit (FP16).</p>
+                    <p>Trên CPU thông thường, <strong>độ trễ suy luận độc lập của riêng mô hình YOLOv8 biển số</strong> đo được là <strong>39.4 ms/khung hình</strong> (tương đương tốc độ suy luận khoảng 25.4 FPS cho riêng mô hình này), giúp giảm đáng kể thời gian xử lý so với mô hình PyTorch chưa qua tối ưu.</p>
+                </div>
+            </div>
+
+            <!-- Q11: 8k pretrain vs 2.5k VN fine-tune -->
+            <div class="qa-card">
+                <div class="qa-header" onclick="toggleQA(this)">
+                    <div class="qa-question">
+                        <span class="qa-badge">DỮ LIỆU</span>
+                        <span>11. Sự khác biệt giữa tập 8.000 ảnh phương tiện và tập 2.500 ảnh thực tế Việt Nam?</span>
+                    </div>
+                    <span>▼</span>
+                </div>
+                <div class="qa-body">
+                    <p><strong>Trả lời:</strong></p>
+                    <ul>
+                        <li><strong>Tập 8.000 ảnh phương tiện:</strong> Dùng ở giai đoạn Pre-train để học các đặc trưng hình khối cơ bản của phương tiện và vùng biển số.</li>
+                        <li><strong>Tập 2.500 ảnh thực tế VN:</strong> Là tập fine-tune trực tiếp tại Việt Nam, bao gồm đầy đủ biển vuông xe máy, biển dài ô tô, góc nghiêng, điều kiện ngược nắng và bám bụi bẩn.</li>
+                        <li><strong>Cân bằng 420 mẫu/lớp ở tập ký tự CNN:</strong> Nhóm phân bổ đều 350 ảnh train và 70 ảnh val cho mỗi lớp ký tự để tránh việc mô hình bị thiên lệch về các ký tự xuất hiện phổ biến hơn.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Q12: Hungarian linear_sum_assignment -->
+            <div class="qa-card">
+                <div class="qa-header" onclick="toggleQA(this)">
+                    <div class="qa-question">
+                        <span class="qa-badge">THUẬT TOÁN</span>
+                        <span>12. Thuật toán Hungarian Matching thông qua hàm `linear_sum_assignment` hoạt động như thế nào trong mã nguồn?</span>
+                    </div>
+                    <span>▼</span>
+                </div>
+                <div class="qa-body">
+                    <p><strong>Trả lời:</strong></p>
+                    <p>Khi có nhiều phương tiện và biển số xuất hiện đồng thời trong khung hình, mã nguồn tại <code>src/engine.py</code> thiết lập một <strong>Ma trận chi phí (Cost Matrix)</strong> dựa trên điểm số kết hợp giữa mức độ bao phủ diện tích biển số (IoPA) và khoảng cách tâm tương đối (có mở rộng biên kiểm tra quanh thân xe).</p>
+                    <p>Hàm <code>linear_sum_assignment</code> trong thư viện <code>scipy.optimize</code> giải bài toán gán cặp tối ưu 1-1 với độ phức tạp $O(N^3)$, <strong>giúp tối ưu hóa việc ghép cặp và giảm thiểu tối đa khả năng gán nhầm biển số giữa các phương tiện liền kề</strong>.</p>
+                </div>
+            </div>
+
+            <!-- Q13: Tại sao train 30 Epochs -->
+            <div class="qa-card">
+                <div class="qa-header" onclick="toggleQA(this)">
+                    <div class="qa-question">
+                        <span class="qa-badge hot">TRỌNG TÂM SLIDE 16</span>
+                        <span>13. Tại sao nhóm cấu hình huấn luyện 30 Epochs? Diễn tiến Learning Rate thực tế như thế nào?</span>
+                    </div>
+                    <span>▼</span>
+                </div>
+                <div class="qa-body">
+                    <p><strong>Trả lời:</strong></p>
+                    <p>Cấu hình 30 Epochs được nhóm lựa chọn dựa trên diễn tiến thực tế của quá trình fine-tuning:</p>
+                    <ul>
+                        <li><strong>1. Khởi tạo từ Transfer Learning:</strong> Do mô hình được fine-tune từ trọng số pretrain đã học trên 8.000 ảnh phương tiện, mạng đã có khả năng trích xuất cạnh viền tốt nên đạt mAP@50 trên 80% ngay từ các epoch đầu.</li>
+                        <li><strong>2. Diễn tiến Learning Rate quan sát từ log results.csv:</strong> Trong cấu hình <code>args.yaml</code>, tham số được đặt là <code>warmup_epochs: 3.0</code>. Khi quan sát dữ liệu thực tế ghi nhận ở cuối mỗi epoch trong <code>results.csv</code>, giá trị learning rate tiếp tục tăng từ $0.000200$ (Epoch 1) và đạt đỉnh $0.001443$ tại Epoch 9. Từ Epoch 10 đến 30, tốc độ học suy giảm tuyến tính (phù hợp với cấu hình <code>cos_lr: false</code>) đều đặn về $8.6 	imes 10^{-5}$ ở Epoch 30, giúp các trọng số hội tụ ổn định.</li>
+                        <li><strong>3. Sự hội tụ của hàm mất mát:</strong> Quan sát các đường Val Box Loss và Val Cls Loss, từ Epoch 22 trở đi hàm mất mát tiệm cận ổn định quanh mức 0.83 và mAP@50 đạt 98.17%, cho thấy mô hình đã đạt trạng thái hội tụ ổn định.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Q14: mAP50 vs mAP50-95 -->
+            <div class="qa-card">
+                <div class="qa-header" onclick="toggleQA(this)">
+                    <div class="qa-question">
+                        <span class="qa-badge hot">TRỌNG TÂM SLIDE 16</span>
+                        <span>14. Chỉ số mAP@50 đạt 98.17% và mAP50-95 đạt đỉnh 75.15% phản ánh điều gì?</span>
+                    </div>
+                    <span>▼</span>
+                </div>
+                <div class="qa-body">
+                    <p><strong>Trả lời:</strong></p>
+                    <ul>
+                        <li><strong>mAP@50 đạt 98.17%:</strong> Ở ngưỡng IoU 0.50, mô hình định vị đúng phần lớn vùng biển số xe có trong tập dữ liệu validation.</li>
+                        <li><strong>mAP@50:0.95 đạt đỉnh 75.15% (Epoch 26 và 28):</strong> Đây là giá trị trung bình trên 10 ngưỡng IoU từ 0.50 đến 0.95. Kết quả 75.15% cho thấy độ trùng khớp hình học giữa hộp bao dự đoán và nhãn gán thực tế ở mức cao, tạo điều kiện thuận lợi để vùng cắt bao quát được phần nội dung ký tự bên trong biển số.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Q15: Recall 87.5% vs Precision 99.0% -->
+            <div class="qa-card">
+                <div class="qa-header" onclick="toggleQA(this)">
+                    <div class="qa-question">
+                        <span class="qa-badge hot">TRỌNG TÂM SLIDE 16</span>
+                        <span>15. Chỉ số Precision 99.05% và Recall 87.50% ở Epoch 30 phản ánh điều gì trên tập validation?</span>
+                    </div>
+                    <span>▼</span>
+                </div>
+                <div class="qa-body">
+                    <p><strong>Trả lời:</strong></p>
+                    <ul>
+                        <li><strong>Precision đạt 99.05% (~99%):</strong> Tỷ lệ phát hiện đúng biển số trong tổng số các dự đoán đạt mức rất cao, giúp hạn chế tối đa các trường hợp báo động giả từ các chi tiết ngoại cảnh như đèn pha, logo hay decal quảng cáo.</li>
+                        <li><strong>Recall đạt 87.50%:</strong> Mô hình phát hiện được 87.5% số biển số trong tập dữ liệu validation. Trong hệ thống giám sát video thực tế, một phương tiện di chuyển qua nhiều khung hình liên tiếp, do đó thuật toán theo dõi BoT-SORT giúp hệ thống có nhiều cơ hội ghi nhận biển số khi xe tiến vào góc nhìn thuận lợi nhất.</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <!-- TAB 3: MẸO PHONG THÁI & TÂM LÝ BẢO VỆ -->
+        <div id="tipsTab" class="tab-content" style="display: none;">
+            <div class="slide-card">
+                <div class="slide-header">
+                    <span class="slide-title-text">🌟 5 NGUYÊN TẮC VÀNG ĐỂ ĐẠT ĐIỂM TỐI ĐA TRƯỚC HỘI ĐỒNG</span>
+                </div>
+                <div class="slide-body">
+                    <div class="speech-box" style="margin-bottom: 12px;">
+                        <p><strong>1. Quy tắc mắt nhìn (Eye Contact):</strong> Tuyệt đối không quay lưng lại Hội đồng để đọc chữ trên slide. Mắt chia làm 3 hướng: Thầy Chủ tịch Hội đồng ở giữa, Cô hướng dẫn bên cánh và Thầy phản biện. Lâu lâu liếc màn hình máy tính 1 giây để biết đang ở slide nào.</p>
+                    </div>
+                    <div class="speech-box" style="margin-bottom: 12px;">
+                        <p><strong>2. Bút Laser chỉ vào con số then chốt:</strong> Khi nói đến con số nào, lia bút laser vào đúng con số đó (ví dụ: số 99.0%, 39.4ms, mốc Epoch 20). Động tác này chứng minh bạn nắm quyền làm chủ bài báo cáo.</p>
+                    </div>
+                    <div class="speech-box" style="margin-bottom: 12px;">
+                        <p><strong>3. Tâm thế khi Thầy Cô ngắt lời hỏi:</strong> Đừng hoảng sợ! Hãy mỉm cười, gật đầu và nói: <em>"Dạ em cảm ơn câu hỏi rất thực tế của Thầy/Cô ạ!"</em>. Dừng lại 2 giây để suy nghĩ rồi trả lời dứt khoát theo các ý chính đã chuẩn bị.</p>
+                    </div>
+                    <div class="speech-box" style="margin-bottom: 12px;">
+                        <p><strong>4. Tuyệt chiêu thừa nhận khoa học:</strong> Nếu Thầy Cô hỏi một câu quá sâu ngoài phạm vi đồ án, đừng bao giờ bịa đặt! Hãy trả lời: <em>"Dạ vấn đề này nhóm em đã nhận thức được và coi đó là hạn chế thực tế của mô hình ở cự ly hiện tại. Nhóm xin phép tiếp thu ý kiến quý báu của Thầy để phát triển tiếp ở phần nghiên cứu tương lai ạ!"</em>. Thầy Cô sẽ đánh giá bạn rất cao về thái độ cầu thị.</p>
+                    </div>
+                    <div class="speech-box">
+                        <p><strong>5. Cú chuyển giao thanh lịch:</strong> Khi hết Slide 16, quay người 45 độ sang Bạn 2, giơ tay mời lịch sự và cảm ơn Thầy Cô. Cử chỉ này thể hiện tinh thần làm việc nhóm gắn kết (Teamwork) và sự chuẩn bị chuyên nghiệp.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-note">
+            Đồ án PBL4: Trí Tuệ Nhân Tạo · Trường Đại Học Bách Khoa - Đại Học Đà Nẵng · Khoa Điện Tử - Viễn Thông · 2026
+        </div>
+
+    </div>
+
+    <!-- Interactive Script -->
+    <script>
+        // Tab Switching
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(tabId).style.display = 'block';
+            event.target.classList.add('active');
+        }
+
+        // Accordion Toggle
+        function toggleQA(element) {
+            const card = element.parentElement;
+            card.classList.toggle('open');
+            const arrow = element.querySelector('span:last-child');
+            if (card.classList.contains('open')) {
+                arrow.textContent = '▲';
+            } else {
+                arrow.textContent = '▼';
+            }
+        }
+
+        // Live Stopwatch
+        let timerInterval = null;
+        let seconds = 0;
+        let isRunning = false;
+
+        function updateTimerDisplay() {
+            const mins = String(Math.floor(seconds / 60)).padStart(2, '0');
+            const secs = String(seconds % 60).padStart(2, '0');
+            const timerEl = document.getElementById('timer');
+            timerEl.textContent = `${mins}:${secs}`;
+            
+            // Color warning as time approaches 6 mins
+            if (seconds >= 360) {
+                timerEl.style.color = 'var(--danger)';
+            } else if (seconds >= 300) {
+                timerEl.style.color = 'var(--warning)';
+            } else {
+                timerEl.style.color = 'var(--accent)';
+            }
+        }
+
+        function toggleTimer() {
+            const btn = document.getElementById('startBtn');
+            if (!isRunning) {
+                isRunning = true;
+                btn.textContent = 'Tạm dừng';
+                btn.style.background = 'var(--warning)';
+                btn.style.color = '#000';
+                timerInterval = setInterval(() => {
+                    seconds++;
+                    updateTimerDisplay();
+                }, 1000);
+            } else {
+                isRunning = false;
+                btn.textContent = 'Tiếp tục';
+                btn.style.background = 'var(--primary)';
+                btn.style.color = '#fff';
+                clearInterval(timerInterval);
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            isRunning = false;
+            seconds = 0;
+            updateTimerDisplay();
+            const btn = document.getElementById('startBtn');
+            btn.textContent = 'Bắt đầu';
+            btn.style.background = 'var(--surface-hover)';
+            btn.style.color = 'var(--text-main)';
+        }
+    </script>
+</body>
+</html>

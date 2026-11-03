@@ -1,0 +1,13 @@
+.venv
+__pycache__
+*.pyc
+*.pyo
+.git
+.gitignore
+*.db
+*.sqlite
+*.sqlite3
+logs
+*.avi
+*.mp4
+output_*

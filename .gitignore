@@ -1,0 +1,77 @@
+# Python
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Local configuration, secrets, and runtime data
+.env
+.env.*
+*.key
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+*.log
+ocr_benchmark_log.csv
+ground_truth.csv
+static/crops/
+backup_traffic_data/
+*.mp4
+*.avi
+*.mkv
+*.mov
+output_*
+sample_test_car.jpg
+
+# Local tools and generated archives
+.agents/
+.codex_pydeps/
+tools/
+release/
+*.zip
+
+# Keep only the submission presentation and report
+*.pptx
+*.pdf
+*.docx
+!presentation/Dual_AI_Bien_so_xe_V2.pptx
+!docs/Cao_Tien_Dung_NCKH_DA.pdf
+
+# AI weights: include the compact trained checkpoint; omit OpenVINO binaries
+*.pt
+*.pth
+*.onnx
+*.bin
+*.weights
+!Train_Final_PBL4/weights/best.pt
+yolov8n_openvino_model/
+
+# Include only final training results and trained checkpoint from this folder
+Train_Final_PBL4/*
+!Train_Final_PBL4/results_and_charts/
+Train_Final_PBL4/results_and_charts/*
+!Train_Final_PBL4/results_and_charts/results.csv
+!Train_Final_PBL4/results_and_charts/results.png
+!Train_Final_PBL4/results_and_charts/training_metrics_dashboard.png
+!Train_Final_PBL4/results_and_charts/inference_license_plate_detection.jpg
+!Train_Final_PBL4/weights/
+Train_Final_PBL4/weights/*
+!Train_Final_PBL4/weights/best.pt
+
+# Ignore CSV by default; include only training results
+*.csv
+!Train_Final_PBL4/results_and_charts/results.csv
+
+# Keep generated/redundant presentation exports out of the code repository
+/slides.html
+/ban_thuyet_trinh_day_du_20_phut.html
+/on_tap_thuyet_trinh_phan1.html
+
+# Preserve the source backup locally; do not upload the 2.2 GB archive
+TrafficAI_Final.rar
+!models/plate_char_cnn.pth
