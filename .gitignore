@@ -46,24 +46,28 @@ release/
 *.onnx
 *.bin
 *.weights
-!Train_Final_PBL4/weights/best.pt
+!deeplearning-du-lieu/weights/best.pt
+!deeplearning-du-lieu/weights_8k/best.pt
 yolov8n_openvino_model/
 
 # Include only final training results and trained checkpoint from this folder
-Train_Final_PBL4/*
-!Train_Final_PBL4/results_and_charts/
-Train_Final_PBL4/results_and_charts/*
-!Train_Final_PBL4/results_and_charts/results.csv
-!Train_Final_PBL4/results_and_charts/results.png
-!Train_Final_PBL4/results_and_charts/training_metrics_dashboard.png
-!Train_Final_PBL4/results_and_charts/inference_license_plate_detection.jpg
-!Train_Final_PBL4/weights/
-Train_Final_PBL4/weights/*
-!Train_Final_PBL4/weights/best.pt
+deeplearning-du-lieu/*
+!deeplearning-du-lieu/results_and_charts/
+deeplearning-du-lieu/results_and_charts/*
+!deeplearning-du-lieu/results_and_charts/results.csv
+!deeplearning-du-lieu/results_and_charts/results.png
+!deeplearning-du-lieu/results_and_charts/training_metrics_dashboard.png
+!deeplearning-du-lieu/results_and_charts/inference_license_plate_detection.jpg
+!deeplearning-du-lieu/weights/
+deeplearning-du-lieu/weights/*
+!deeplearning-du-lieu/weights/best.pt
+!deeplearning-du-lieu/weights_8k/
+deeplearning-du-lieu/weights_8k/*
+!deeplearning-du-lieu/weights_8k/best.pt
 
 # Ignore CSV by default; include only training results
 *.csv
-!Train_Final_PBL4/results_and_charts/results.csv
+!deeplearning-du-lieu/results_and_charts/results.csv
 
 # Keep generated/redundant presentation exports out of the code repository
 /slides.html
